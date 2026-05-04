@@ -1,16 +1,19 @@
 using UnityEngine;
-using TMPro; // Si tu utilises TextMeshPro
+using TMPro;
 using System.Collections;
 
 public class StartRoomController : MonoBehaviour
 {
-    public GameObject door;           // Glisse ta porte ici
-    public TextMeshProUGUI countdownText; // Glisse ton texte UI ici
-    public GameObject startButton;    // Glisse ton bouton UI ici
+    public GameObject door;
+    public TextMeshProUGUI countdownText;
+    public GameObject startButton;
+    
+    // AJOUTE CETTE LIGNE :
+    public Transform nextRoomSpawnPoint; 
 
     public void OnStartButtonPressed()
     {
-        startButton.SetActive(false); // Cache le bouton
+        startButton.SetActive(false);
         StartCoroutine(StartCountdown());
     }
 
@@ -27,13 +30,24 @@ public class StartRoomController : MonoBehaviour
         countdownText.text = "GO !";
         OpenDoor();
         
+        // AJOUTE CES LIGNES ICI :
+        if (DungeonGenerator.instance != null && nextRoomSpawnPoint != null)
+        {
+            DungeonGenerator.instance.SpawnNextRoom(nextRoomSpawnPoint.position);
+        }
+        else
+        {
+            if (DungeonGenerator.instance == null) Debug.LogError("DungeonGenerator.instance est NULL ! Vérifie que le script DungeonGenerator est sur un objet dans la scène.");
+            if (nextRoomSpawnPoint == null) Debug.LogError("nextRoomSpawnPoint est NULL ! Glisse l'objet vide (point de sortie) dans l'inspecteur du StartRoomController.");
+        }
+        
         yield return new WaitForSeconds(1f);
-        countdownText.text = ""; // Efface le texte
+        countdownText.text = "";
     }
 
     void OpenDoor()
     {
-        door.SetActive(false); // Ouvre physiquement la porte
+        door.SetActive(false);
         Debug.Log("Le donjon est ouvert !");
     }
 }

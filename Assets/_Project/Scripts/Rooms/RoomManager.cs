@@ -4,17 +4,30 @@ using System.Collections.Generic;
 public class RoomManager : MonoBehaviour
 {
     public List<GameObject> doors;
-    public Transform nextRoomSpawnPoint; // Un objet vide placé à la sortie de la salle
+    public Transform nextRoomSpawnPoint; // L'objet vide à la sortie
     private bool isCleared = false;
+    private bool playerInside = false;
+
+    // Appelé quand le joueur entre dans la zone de combat
+    public void OnPlayerEnter()
+    {
+        if (!isCleared && !playerInside)
+        {
+            playerInside = true;
+            foreach (GameObject door in doors) door.SetActive(true); // Ferme les portes
+            Debug.Log("Portes fermées, tuez les ennemis !");
+        }
+    }
 
     public void CheckEnemies()
     {
         if (isCleared) return;
-        // On compte les objets avec le tag "Enemy" enfants de cette salle
-        // (C'est plus simple que de maintenir une liste manuelle)
+
+        // On compte les scripts EnemyHealth encore vivants dans les enfants de la salle
         int enemyCount = transform.GetComponentsInChildren<EnemyHealth>().Length;
 
-        if (enemyCount <= 1) // On compte 1 car l'objet en train d'être détruit compte encore
+        // Si 1 ou 0, c'est que c'est fini (l'objet en destruction compte parfois encore)
+        if (enemyCount <= 1) 
         {
             OpenDoors();
         }
@@ -23,9 +36,13 @@ public class RoomManager : MonoBehaviour
     void OpenDoors()
     {
         isCleared = true;
-        foreach (GameObject door in doors) door.SetActive(false);
+        foreach (GameObject door in doors) door.SetActive(false); // Ouvre les portes
+        Debug.Log("Salle nettoyée !");
         
-        // On prévient le générateur qu'on a besoin d'une nouvelle salle
-        DungeonGenerator.instance.SpawnNextRoom(nextRoomSpawnPoint.position);
+        // C'EST ICI QU'ON APPELLE LE GÉNÉRATEUR[cite: 1, 2]
+        if (DungeonGenerator.instance != null && nextRoomSpawnPoint != null)
+        {
+            DungeonGenerator.instance.SpawnNextRoom(nextRoomSpawnPoint.position);
+        }
     }
 }
