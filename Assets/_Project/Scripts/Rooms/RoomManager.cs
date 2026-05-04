@@ -25,9 +25,8 @@ public class RoomManager : MonoBehaviour
 
         // On compte les scripts EnemyHealth encore vivants dans les enfants de la salle
         int enemyCount = transform.GetComponentsInChildren<EnemyHealth>().Length;
-
         // Si 1 ou 0, c'est que c'est fini (l'objet en destruction compte parfois encore)
-        if (enemyCount <= 1) 
+        if (enemyCount == 0)
         {
             OpenDoors();
         }
@@ -36,13 +35,20 @@ public class RoomManager : MonoBehaviour
     void OpenDoors()
     {
         isCleared = true;
-        foreach (GameObject door in doors) door.SetActive(false); // Ouvre les portes
+        foreach (GameObject door in doors) door.SetActive(false);
         Debug.Log("Salle nettoyée !");
-        
-        // C'EST ICI QU'ON APPELLE LE GÉNÉRATEUR[cite: 1, 2]
+
+        // Si la salle a une sortie, on continue le donjon
         if (DungeonGenerator.instance != null && nextRoomSpawnPoint != null)
         {
             DungeonGenerator.instance.SpawnNextRoom(nextRoomSpawnPoint.position);
+        }
+        // Si la salle N'A PAS de sortie, c'est implacablement la salle du Boss
+        else if (nextRoomSpawnPoint == null)
+        {
+            Debug.Log("BOSS VAINCU ! Fin du donjon.");
+
+            // C'est exactement ici que nous coderons l'apparition de l'XP et le drop d'équipement à l'Étape 3.
         }
     }
 }
