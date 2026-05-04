@@ -2,85 +2,88 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-public class ArmorDatabaseGenerator : EditorWindow
+public class ArmorDatabaseGenerator
 {
-    [MenuItem("RPG/Générer Armures")]
-    public static void GenerateArmorDatabase()
-    {
-        string folderPath = "Assets/Items/Armors";
+    private const string FolderPath = "Assets/Items/Armors";
 
-        // S'assurer que le dossier existe
-        if (!Directory.Exists(Application.dataPath + "/Items/Armors"))
+    [MenuItem("RPG/Générer Armures du Désert")]
+    public static void GenerateDatabase()
+    {
+        // Vérifier et créer le dossier si nécessaire
+        if (!AssetDatabase.IsValidFolder(FolderPath))
         {
-            Directory.CreateDirectory(Application.dataPath + "/Items/Armors");
-            AssetDatabase.Refresh();
+            if (!AssetDatabase.IsValidFolder("Assets/Items"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Items");
+            }
+            AssetDatabase.CreateFolder("Assets/Items", "Armors");
         }
 
         // --- Rareté : COMMUN ---
-        // Tank
-        CreateArmor("Casque_Commun_Tank", "Bonnet Lourd", ItemType.Casque, ItemRarity.Commun, 10, 0, 0);
-        CreateArmor("Plastron_Commun_Tank", "Tunique Épaisse", ItemType.Plastron, ItemRarity.Commun, 20, 0, 0);
-        CreateArmor("Pantalon_Commun_Tank", "Pantalon Rembourré", ItemType.Pantalon, ItemRarity.Commun, 10, 0, 0);
-        // Warrior
-        CreateArmor("Casque_Commun_Guerrier", "Heaume Rouillé", ItemType.Casque, ItemRarity.Commun, 6, 3, 0);
-        CreateArmor("Plastron_Commun_Guerrier", "Cuirasse Fendue", ItemType.Plastron, ItemRarity.Commun, 12, 6, 0);
-        CreateArmor("Pantalon_Commun_Guerrier", "Jambières Rouillées", ItemType.Pantalon, ItemRarity.Commun, 6, 3, 0);
-        // Mage
-        CreateArmor("Casque_Commun_Mage", "Chaperon Usé", ItemType.Casque, ItemRarity.Commun, 4, 0, 4);
-        CreateArmor("Plastron_Commun_Mage", "Robe Poussiéreuse", ItemType.Plastron, ItemRarity.Commun, 8, 0, 8);
-        CreateArmor("Pantalon_Commun_Mage", "Chausses Usées", ItemType.Pantalon, ItemRarity.Commun, 4, 0, 4);
+        // Tank (Bandelettes)
+        CreateArmor("Bandelettes Épaisses", ItemType.Casque, ItemRarity.Commun, 10, 0, 0, "Bandelettes", "Tank");
+        CreateArmor("Torse Embaumé", ItemType.Plastron, ItemRarity.Commun, 20, 0, 0, "Bandelettes", "Tank");
+        CreateArmor("Jambes Embaumées", ItemType.Pantalon, ItemRarity.Commun, 10, 0, 0, "Bandelettes", "Tank");
+        // Warrior (CuirSeche)
+        CreateArmor("Chèche en Cuir Séché", ItemType.Casque, ItemRarity.Commun, 6, 3, 0, "CuirSeche", "Warrior");
+        CreateArmor("Harnais en Cuir Séché", ItemType.Plastron, ItemRarity.Commun, 12, 6, 0, "CuirSeche", "Warrior");
+        CreateArmor("Bottes en Cuir Séché", ItemType.Pantalon, ItemRarity.Commun, 6, 3, 0, "CuirSeche", "Warrior");
+        // Mage (Lin)
+        CreateArmor("Capuche en Lin", ItemType.Casque, ItemRarity.Commun, 4, 0, 4, "Lin", "Mage");
+        CreateArmor("Robe Poussiéreuse", ItemType.Plastron, ItemRarity.Commun, 8, 0, 8, "Lin", "Mage");
+        CreateArmor("Sandales Usées", ItemType.Pantalon, ItemRarity.Commun, 4, 0, 4, "Lin", "Mage");
 
         // --- Rareté : RARE ---
-        // Tank
-        CreateArmor("Casque_Rare_Tank", "Casque Solide", ItemType.Casque, ItemRarity.Rare, 30, 0, 0);
-        CreateArmor("Plastron_Rare_Tank", "Armure Solide", ItemType.Plastron, ItemRarity.Rare, 60, 0, 0);
-        CreateArmor("Pantalon_Rare_Tank", "Plaques Solides", ItemType.Pantalon, ItemRarity.Rare, 30, 0, 0);
-        // Warrior
-        CreateArmor("Casque_Rare_Guerrier", "Heaume de Mercenaire", ItemType.Casque, ItemRarity.Rare, 18, 10, 0);
-        CreateArmor("Plastron_Rare_Guerrier", "Plastron de Mercenaire", ItemType.Plastron, ItemRarity.Rare, 36, 20, 0);
-        CreateArmor("Pantalon_Rare_Guerrier", "Grèves de Mercenaire", ItemType.Pantalon, ItemRarity.Rare, 18, 10, 0);
-        // Mage
-        CreateArmor("Casque_Rare_Mage", "Chapeau d'Adepte", ItemType.Casque, ItemRarity.Rare, 12, 0, 14);
-        CreateArmor("Plastron_Rare_Mage", "Tunique d'Adepte", ItemType.Plastron, ItemRarity.Rare, 24, 0, 28);
-        CreateArmor("Pantalon_Rare_Mage", "Bottes d'Adepte", ItemType.Pantalon, ItemRarity.Rare, 12, 0, 14);
+        // Tank (Bronze)
+        CreateArmor("Masque de Bronze", ItemType.Casque, ItemRarity.Rare, 30, 0, 0, "Bronze", "Tank");
+        CreateArmor("Cuirasse de Bronze", ItemType.Plastron, ItemRarity.Rare, 60, 0, 0, "Bronze", "Tank");
+        CreateArmor("Plaques de Bronze", ItemType.Pantalon, ItemRarity.Rare, 30, 0, 0, "Bronze", "Tank");
+        // Warrior (Pillard)
+        CreateArmor("Masque du Pillard", ItemType.Casque, ItemRarity.Rare, 18, 10, 0, "Pillard", "Warrior");
+        CreateArmor("Manteau du Pillard", ItemType.Plastron, ItemRarity.Rare, 36, 20, 0, "Pillard", "Warrior");
+        CreateArmor("Grèves du Pillard", ItemType.Pantalon, ItemRarity.Rare, 18, 10, 0, "Pillard", "Warrior");
+        // Mage (Cultiste)
+        CreateArmor("Voile du Cultiste", ItemType.Casque, ItemRarity.Rare, 12, 0, 14, "Cultiste", "Mage");
+        CreateArmor("Habit du Cultiste", ItemType.Plastron, ItemRarity.Rare, 24, 0, 28, "Cultiste", "Mage");
+        CreateArmor("Chausses du Cultiste", ItemType.Pantalon, ItemRarity.Rare, 12, 0, 14, "Cultiste", "Mage");
 
         // --- Rareté : EPIC ---
-        // Tank
-        CreateArmor("Casque_Epic_Tank", "Masque de Fer", ItemType.Casque, ItemRarity.Epic, 80, 0, 0);
-        CreateArmor("Plastron_Epic_Tank", "Forteresse de Fer", ItemType.Plastron, ItemRarity.Epic, 160, 0, 0);
-        CreateArmor("Pantalon_Epic_Tank", "Bastion de Fer", ItemType.Pantalon, ItemRarity.Epic, 80, 0, 0);
-        // Warrior
-        CreateArmor("Casque_Epic_Guerrier", "Visage du Chef", ItemType.Casque, ItemRarity.Epic, 50, 25, 0);
-        CreateArmor("Plastron_Epic_Guerrier", "Harnais du Chef", ItemType.Plastron, ItemRarity.Epic, 100, 50, 0);
-        CreateArmor("Pantalon_Epic_Guerrier", "Marche du Chef", ItemType.Pantalon, ItemRarity.Epic, 50, 25, 0);
-        // Mage
-        CreateArmor("Casque_Epic_Mage", "Diadème Mystique", ItemType.Casque, ItemRarity.Epic, 30, 0, 35);
-        CreateArmor("Plastron_Epic_Mage", "Manteau Mystique", ItemType.Plastron, ItemRarity.Epic, 60, 0, 70);
-        CreateArmor("Pantalon_Epic_Mage", "Traces Mystiques", ItemType.Pantalon, ItemRarity.Epic, 30, 0, 35);
+        // Tank (Gardien)
+        CreateArmor("Heaume du Gardien", ItemType.Casque, ItemRarity.Epic, 80, 0, 0, "Gardien", "Tank");
+        CreateArmor("Armure de Pierre", ItemType.Plastron, ItemRarity.Epic, 160, 0, 0, "Gardien", "Tank");
+        CreateArmor("Piliers du Gardien", ItemType.Pantalon, ItemRarity.Epic, 80, 0, 0, "Gardien", "Tank");
+        // Warrior (Anubis)
+        CreateArmor("Masque d'Anubis", ItemType.Casque, ItemRarity.Epic, 50, 25, 0, "Anubis", "Warrior");
+        CreateArmor("Plastron d'Anubis", ItemType.Plastron, ItemRarity.Epic, 100, 50, 0, "Anubis", "Warrior");
+        CreateArmor("Marche d'Anubis", ItemType.Pantalon, ItemRarity.Epic, 50, 25, 0, "Anubis", "Warrior");
+        // Mage (Solaire)
+        CreateArmor("Coiffe Solaire", ItemType.Casque, ItemRarity.Epic, 30, 0, 35, "Solaire", "Mage");
+        CreateArmor("Manteau Solaire", ItemType.Plastron, ItemRarity.Epic, 60, 0, 70, "Solaire", "Mage");
+        CreateArmor("Traces Solaires", ItemType.Pantalon, ItemRarity.Epic, 30, 0, 35, "Solaire", "Mage");
 
         // --- Rareté : LEGENDAIRE ---
-        // Tank
-        CreateArmor("Casque_Legendaire_Tank", "Heaume Inébranlable", ItemType.Casque, ItemRarity.Legendaire, 200, 0, 0);
-        CreateArmor("Plastron_Legendaire_Tank", "Muraille Inébranlable", ItemType.Plastron, ItemRarity.Legendaire, 400, 0, 0);
-        CreateArmor("Pantalon_Legendaire_Tank", "Piliers Inébranlables", ItemType.Pantalon, ItemRarity.Legendaire, 200, 0, 0);
-        // Warrior
-        CreateArmor("Casque_Legendaire_Guerrier", "Couronne de Carnage", ItemType.Casque, ItemRarity.Legendaire, 120, 60, 0);
-        CreateArmor("Plastron_Legendaire_Guerrier", "Manteau de Carnage", ItemType.Plastron, ItemRarity.Legendaire, 240, 120, 0);
-        CreateArmor("Pantalon_Legendaire_Guerrier", "Foulée de Carnage", ItemType.Pantalon, ItemRarity.Legendaire, 120, 60, 0);
-        // Mage
-        CreateArmor("Casque_Legendaire_Mage", "Halo Omniscient", ItemType.Casque, ItemRarity.Legendaire, 80, 0, 90);
-        CreateArmor("Plastron_Legendaire_Mage", "Robe Omnisciente", ItemType.Plastron, ItemRarity.Legendaire, 160, 0, 180);
-        CreateArmor("Pantalon_Legendaire_Mage", "Lévitation Omnisciente", ItemType.Pantalon, ItemRarity.Legendaire, 80, 0, 90);
+        // Tank (Scarabee)
+        CreateArmor("Heaume du Scarabée d'Or", ItemType.Casque, ItemRarity.Legendaire, 200, 0, 0, "Scarabee", "Tank");
+        CreateArmor("Carapace du Scarabée", ItemType.Plastron, ItemRarity.Legendaire, 400, 0, 0, "Scarabee", "Tank");
+        CreateArmor("Grèves du Scarabée", ItemType.Pantalon, ItemRarity.Legendaire, 200, 0, 0, "Scarabee", "Tank");
+        // Warrior (Seigneur)
+        CreateArmor("Couronne des Dunes", ItemType.Casque, ItemRarity.Legendaire, 120, 60, 0, "Seigneur", "Warrior");
+        CreateArmor("Manteau des Dunes", ItemType.Plastron, ItemRarity.Legendaire, 240, 120, 0, "Seigneur", "Warrior");
+        CreateArmor("Foulée des Dunes", ItemType.Pantalon, ItemRarity.Legendaire, 120, 60, 0, "Seigneur", "Warrior");
+        // Mage (Vizir)
+        CreateArmor("Halo du Vizir Immortel", ItemType.Casque, ItemRarity.Legendaire, 80, 0, 90, "Vizir", "Mage");
+        CreateArmor("Linceul du Vizir", ItemType.Plastron, ItemRarity.Legendaire, 160, 0, 180, "Vizir", "Mage");
+        CreateArmor("Lévitation du Vizir", ItemType.Pantalon, ItemRarity.Legendaire, 80, 0, 90, "Vizir", "Mage");
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log("Base de données d'armures générée avec succès !");
+        Debug.Log("Base de données de 36 armures générée avec succès (avec indicateurs de classe) !");
     }
 
-    private static void CreateArmor(string fileName, string itemName, ItemType type, ItemRarity rarity, int hp, int phys, int mag)
+    private static void CreateArmor(string name, ItemType type, ItemRarity rarity, int hp, int phys, int mag, string setSuffix, string className)
     {
         ItemData item = ScriptableObject.CreateInstance<ItemData>();
-        item.itemName = itemName;
+        item.itemName = $"[{className}] {name}";
         item.type = type;
         item.rarity = rarity;
         item.scalingType = StatScaling.Aucun;
@@ -89,7 +92,10 @@ public class ArmorDatabaseGenerator : EditorWindow
         item.bonusPhysique = phys;
         item.bonusMagie = mag;
 
-        string path = $"Assets/Items/Armors/{fileName}.asset";
+        // Règle de nommage : [Type]_[Rareté]_[Classe]_[Nom_Sans_Espaces].asset
+        string fileName = $"{type}_{rarity}_{className}_{setSuffix}.asset";
+        string path = Path.Combine(FolderPath, fileName);
+
         AssetDatabase.CreateAsset(item, path);
     }
 }

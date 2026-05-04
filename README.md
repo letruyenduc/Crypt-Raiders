@@ -1,66 +1,57 @@
 # Crypt Raiders - RPG Dungeon Crawler 2D
 
 ## 📜 Description du Projet
-Crypt Raiders est un Action-RPG en 2D développé sous Unity. Le joueur explore un donjon généré de manière procédurale, combat des ennemis dotés d'une IA avancée, et progresse via un système de loot et d'équipement structuré par classes (Guerrier/Mage).
+**Crypt Raiders** est un Action-RPG en 2D développé sous Unity, plongé dans une atmosphère mystique de **Désert et de Cryptes Anciennes**. Le joueur explore des tombeaux oubliés, combat des gardiens embaumés et progresse via un système de loot riche et structuré.
 
 ---
 
-## 🏗️ Architecture Technique Actuelle
+## 🏗️ Architecture Technique
 
-### 1. Système de Donjon & Salles (`Rooms`)
-- **DungeonGenerator** : Singleton gérant le spawn procédural des salles à partir d'un pool de prefabs.
-- **RoomManager** : Gère l'état d'une salle (Combat/Nettoyée). Verrouille les portes à l'entrée et les déverrouille une fois les ennemis vaincus.
-- **StartRoomController** : Gère la phase d'initialisation (UI de démarrage, compte à rebours, ouverture du donjon).
+### 1. Data-Driven Design (`ScriptableObjects`)
+Le projet utilise une architecture basée sur les données pour faciliter l'équilibrage et l'extension du contenu.
+- **ItemData** : Structure pivot définissant les Armes, Sorts et Armures.
+- **ItemType** : `Arme_Melee`, `Arme_Magique`, `Casque`, `Plastron`, `Pantalon`, `Sort`.
+- **Rareté** : `Commun` (Blanc), `Rare` (Bleu), `Epic` (Violet), `Legendaire` (Orange).
+- **Scaling** : Système de calcul de dégâts basé sur la `Physique` ou la `Magie`.
 
-### 2. Système RPG & Data (`Data` & `Editor`)
-- **ItemData (ScriptableObject)** : Définition de base des objets (Armes, Armures, Sorts) avec rareté, statistiques et scaling.
-- **ItemInstance** : Logique de "God Roll" gérant la variance des stats (+/- 10%) et le potentiel d'amélioration (Upgrades) basé sur la rareté.
-- **Générateurs Automatisés** :
-    - `WeaponSpellDatabaseGenerator` : Génère les dagues, épées, bâtons, orbes et sorts (Physique/Magique).
-    - `ArmorDatabaseGenerator` : Génère 36 pièces d'armure (Casque, Plastron, Pantalon) réparties par thèmes (Tank, Guerrier, Mage).
+### 2. Automatisation (Editor Scripts)
+Pour garantir la cohérence des sets et gagner du temps, deux générateurs sont disponibles dans le menu **RPG** de l'éditeur Unity :
+- **Générer Armures du Désert** : Crée 36 pièces d'armure réparties en 3 classes :
+    - **Tank** (Set du Scarabée/Gardien) : Focus Max HP.
+    - **Warrior** (Set d'Anubis/Pillard) : Équilibre HP / Bonus Physique.
+    - **Mage** (Set du Vizir/Solaire) : Focus Bonus Magique.
+- **Générer Armes et Sorts** : Crée la base offensive (Lames de bronze, Sceptres royaux, Souffles de momie, etc.).
 
-### 3. Intelligence Artificielle & Navigation (`Core`)
-- **Pathfinding A*** : Algorithme personnalisé basé sur une grille (`PathfindingGrid`) pour une navigation fluide des ennemis en 2D.
-- **SimpleEnemyFollow** : IA de poursuite utilisant le chemin calculé pour traquer le joueur.
+*Convention de nommage des fichiers : `[Type]_[Rareté]_[Classe/Set]_[Nom].asset`*
 
-### 4. Gestion de l'État de Jeu (`Core` & `UI`)
-- **Health System** : Gestion de la vie pour le joueur et les ennemis avec feedbacks visuels (flash rouge).
-- **VictoryManager** : Gère les conditions de victoire et le passage aux niveaux suivants.
-- **GameOverManager** : Gère la défaite du joueur et le retour au menu/restart.
-
----
-
-## ✅ État d'Avancement (TODO List)
-
-### 🌍 Monde & Progression
-- [x] Système de spawn et génération de salles.
-- [x] Conditions de Victoire / Défaite.
-- [ ] **Sélection de la Map** (Menu pour choisir entre 2 thèmes visuels).
-- [ ] **Difficultés** (Facile → Nightmare) influençant le nombre de salles et la puissance des ennemis.
-- [ ] **Limite de Salles** dynamique selon la difficulté.
-
-### ⚔️ Combat & Équipement
-- [x] 2 Classes d'objets (Guerrier/Mage).
-- [x] 4 Raretés (Commun, Rare, Epic, Légendaire).
-- [x] Sets d'armures complets (Casque, Plastron, Pantalon).
-- [x] Sorts avec scaling Physique ou Magique.
-- [ ] **Slots de Sorts (A et E)** : Système de lancement de sorts assigné aux touches.
-
-### 🎒 Systèmes RPG Avancés
-- [ ] **Inventaire & Équipement UI** : Interface pour visualiser et équiper le loot.
-- [ ] **Loot Système** : Drop d'objets uniquement sur les Boss avec affichage visuel du drop.
-- [ ] **Système de Niveau** : Gain d'XP et points de statistiques à répartir (Force/Magie/Vie).
-- [ ] **Polissage** : Intégration complète des VFX, SFX et Musiques d'ambiance.
+### 3. Systèmes Core
+- **Génération Procédurale** : Un `DungeonGenerator` assemble des salles (`Rooms`) dynamiquement pour créer un labyrinthe unique à chaque run.
+- **IA de Combat** : Ennemis utilisant un système de **Pathfinding A*** personnalisé pour traquer le joueur dans les couloirs étroits de la crypte.
+- **Health System** : Gestion robuste des points de vie avec feedbacks visuels (Hit flash) et gestion de la mort.
 
 ---
 
-## 🚀 Prochaines Étapes Recommandées
-1. **Implémenter l'Inventaire** : Crucial pour utiliser les 50+ objets déjà générés.
-2. **Système de Difficulté** : Connecter le `DungeonGenerator` à un paramètre de difficulté pour limiter le nombre de salles.
-3. **Lanceur de Sorts** : Créer le script `SpellCaster` pour lier les ScriptableObjects `Sort` aux touches A et E.
+## 🏜️ Thématique : Désert & Crypte
+Tout le contenu est visuellement et textuellement ancré dans cet univers :
+- **Équipement** : Bandelettes d'embaumement, masques d'Anubis, linceuls de vizir, lames de soleil.
+- **Ennemis** : Momies, scarabées dorés, gardiens de pierre.
+- **Environnement** : Salles de sable, piliers gravés, éclairage tamisé de torches.
 
 ---
 
-## 🛠️ Instructions Développeur
-- **Génération des Data** : Utilisez le menu `RPG > Générer ...` pour reconstruire la base de données d'objets.
-- **Debug** : Les logs de console indiquent les points de spawn et les états de nettoyage des salles.
+## 🛠️ Instructions pour les Développeurs
+
+### Ajouter du contenu
+1. Pour ajouter une nouvelle pièce d'armure, modifiez `ArmorDatabaseGenerator.cs` et relancez le script via `RPG > Générer Armures du Désert`.
+2. Les icônes et descriptions peuvent être assignées directement sur les fichiers `.asset` générés dans `Assets/Items/`.
+
+### Debug & Validation
+- La console Unity affiche le succès des générations et l'état des salles lors du jeu.
+- Vérifiez que les `LayerMasks` du `PathfindingGrid` sont correctement configurés pour les murs de la crypte.
+
+---
+
+## ✅ TODO List Prioritaire
+- [ ] **Système d'Inventaire** : Interface UI pour équiper les 50+ objets générés.
+- [ ] **Loot Drop UI** : Feedback visuel au sol lors de la défaite d'un boss.
+- [ ] **Spell Manager** : Lier les ScriptableObjects de Sorts aux touches de raccourci (A/E).
