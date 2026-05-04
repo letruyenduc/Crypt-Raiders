@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class RoomManager : MonoBehaviour
 {
+    public GameObject bossLootPrefab;
     public List<GameObject> doors;
     public Transform nextRoomSpawnPoint; // L'objet vide à la sortie
     private bool isCleared = false;
@@ -35,20 +36,27 @@ public class RoomManager : MonoBehaviour
     void OpenDoors()
     {
         isCleared = true;
-        foreach (GameObject door in doors) door.SetActive(false);
-        Debug.Log("Salle nettoyée !");
+        foreach (GameObject door in doors) if (door != null) door.SetActive(false);
 
-        // Si la salle a une sortie, on continue le donjon
         if (DungeonGenerator.instance != null && nextRoomSpawnPoint != null)
         {
             DungeonGenerator.instance.SpawnNextRoom(nextRoomSpawnPoint.position);
         }
-        // Si la salle N'A PAS de sortie, c'est implacablement la salle du Boss
-        else if (nextRoomSpawnPoint == null)
+        else if (nextRoomSpawnPoint == null) // Condition de Boss[cite: 1]
         {
-            Debug.Log("BOSS VAINCU ! Fin du donjon.");
+            // 1. On fait tomber le loot (ton code actuel)
+            if (bossLootPrefab != null)
+            {
+                Instantiate(bossLootPrefab, transform.position, Quaternion.identity);
+            }
 
-            // C'est exactement ici que nous coderons l'apparition de l'XP et le drop d'équipement à l'Étape 3.
+            // 2. On affiche les boutons de victoire
+            if (VictoryManager.instance != null)
+            {
+                // On peut ajouter un petit délai via Invoke si on veut que le joueur 
+                // ait le temps de voir le Boss mourir avant l'affichage.
+                VictoryManager.instance.Invoke("ShowVictory", 1.5f);
+            }
         }
     }
 }
