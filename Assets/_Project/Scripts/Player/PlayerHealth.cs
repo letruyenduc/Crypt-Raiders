@@ -6,27 +6,44 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 10;
     private int currentHealth;
+    private int bonusMaxHP = 0;
     private bool isDead = false;
 
     [Header("Interface (HUD)")]
     public Slider healthBar;
-    public TextMeshProUGUI healthText; // Ajoute cette variable
+    public TextMeshProUGUI healthText; 
 
     void Start()
     {
         currentHealth = maxHealth;
-        
-        if (healthBar != null) healthBar.maxValue = maxHealth;
-        UpdateHealthUI(); // On centralise la mise à jour visuelle
+        UpdateHealthUI(); 
     }
+
+    public void UpdateMaxHPBonus(int bonus)
+    {
+        int oldMax = GetTotalMaxHealth();
+        bonusMaxHP = bonus;
+        int newMax = GetTotalMaxHealth();
+
+        // Si la vie max augmente, on soigne du montant gagné
+        if (newMax > oldMax)
+        {
+            currentHealth += (newMax - oldMax);
+        }
+        
+        // On sature si la vie dépasse le nouveau max
+        if (currentHealth > newMax) currentHealth = newMax;
+
+        UpdateHealthUI();
+    }
+
+    private int GetTotalMaxHealth() => maxHealth + bonusMaxHP;
 
     public void TakeDamage(int damage)
     {
         if (isDead) return;
 
         currentHealth -= damage;
-        
-        // Empêche l'affichage de nombres négatifs (ex: -2 / 10)
         if (currentHealth < 0) currentHealth = 0; 
         
         UpdateHealthUI();
@@ -37,16 +54,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Nouvelle fonction dédiée uniquement à l'affichage
     private void UpdateHealthUI()
     {
+        int totalMax = GetTotalMaxHealth();
         if (healthBar != null) 
         {
+            healthBar.maxValue = totalMax;
             healthBar.value = currentHealth;
         }
         if (healthText != null) 
         {
-            healthText.text = currentHealth + " / " + maxHealth;
+            healthText.text = currentHealth + " / " + totalMax;
         }
     }
 

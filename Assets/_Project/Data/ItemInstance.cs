@@ -19,11 +19,24 @@ public class ItemInstance
     {
         this.template = sourceData;
 
-        // --- 1. TIRAGE INDÉPENDANT DES STATISTIQUES (+/- 10%) ---
-        this.actualMainStat = RollStat(this.template.mainStatValue);
-        this.actualBonusHP = RollStat(this.template.bonusHP);
-        this.actualBonusPhysique = RollStat(this.template.bonusPhysique);
-        this.actualBonusMagie = RollStat(this.template.bonusMagie);
+        // --- 1. TIRAGE DES STATISTIQUES ---
+        // Si c'est un SORT, on ne fait pas de tirage aléatoire (+/- 10%)
+        // On garde les valeurs exactes du template pour que le scale soit pur
+        if (this.template.type == ItemType.Sort)
+        {
+            this.actualMainStat = this.template.mainStatValue;
+            this.actualBonusHP = this.template.bonusHP;
+            this.actualBonusPhysique = this.template.bonusPhysique;
+            this.actualBonusMagie = this.template.bonusMagie;
+        }
+        else
+        {
+            // Pour les armes et armures, on garde le tirage aléatoire
+            this.actualMainStat = RollStat(this.template.mainStatValue);
+            this.actualBonusHP = RollStat(this.template.bonusHP);
+            this.actualBonusPhysique = RollStat(this.template.bonusPhysique);
+            this.actualBonusMagie = RollStat(this.template.bonusMagie);
+        }
 
         // --- 2. TIRAGE DU NOMBRE D'AMÉLIORATIONS ---
         int baseMaxUpgrades = GetBaseMaxUpgrades(this.template.rarity);

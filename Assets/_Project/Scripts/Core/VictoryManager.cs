@@ -19,6 +19,12 @@ public class VictoryManager : MonoBehaviour
         // On affiche le panneau
         if (victoryUI != null) victoryUI.SetActive(true);
         
+        // --- NOUVEAUTÉ : GÉNÉRER LE LOOT ---
+        if (LootRewardUI.Instance != null)
+        {
+            LootRewardUI.Instance.ShowRewards();
+        }
+
         // On débloque la souris pour pouvoir cliquer sur les boutons
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

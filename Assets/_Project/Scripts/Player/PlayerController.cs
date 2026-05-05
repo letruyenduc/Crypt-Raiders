@@ -10,21 +10,32 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 0.6f;
     public float attackOffset = 0.8f;
     public LayerMask enemyLayers;
-    public int attackDamage = 1;
-    public float attackCooldown = 0.5f; // Délai en secondes entre chaque attaque
+    public int baseAttackDamage = 1;
+    public float attackCooldown = 0.5f; 
+
+    private int bonusPhysique = 0;
+    private int bonusMagie = 0;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
-    private Vector2 aimDirection = Vector2.down; // Par défaut regarde vers le bas
+    private Vector2 aimDirection = Vector2.down; 
     private float nextAttackTime = 0f;
     public LayerMask wallLayer;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public void UpdateDamageBonus(int physique, int magie)
+    {
+        bonusPhysique = physique;
+        bonusMagie = magie;
+    }
+
     void Update()
     {
+        // ... (Inputs restants identiques)
         // 1. Inputs ZQSD forcés
         float moveX = 0f;
         float moveY = 0f;
@@ -81,7 +92,8 @@ public class PlayerController : MonoBehaviour
                 EnemyHealth health = enemy.GetComponent<EnemyHealth>();
                 if (health != null)
                 {
-                    health.TakeDamage(attackDamage); // Inflige 1 dégât par défaut
+                    int finalDamage = baseAttackDamage + bonusPhysique;
+                    health.TakeDamage(finalDamage); 
                 }
             }
             else

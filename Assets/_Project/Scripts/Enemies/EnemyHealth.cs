@@ -2,9 +2,8 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 3;
+    public int maxHealth = 50;
     private int currentHealth;
-
     private RoomManager currentRoom;
 
     void Start()
