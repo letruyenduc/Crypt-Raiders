@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Arme_Magique_Commun_B\xE2tondeRoseau"
   m_EditorClassIdentifier: 
   itemName: "B\xE2ton de Roseau"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 3ecb137f1c0d38e4a914c08e7ad4403c, type: 3}
   type: 1
   rarity: 0
   scalingType: 1
@@ -21,4 +21,9 @@ MonoBehaviour:
   bonusHP: 0
   bonusPhysique: 0
   bonusMagie: 3
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

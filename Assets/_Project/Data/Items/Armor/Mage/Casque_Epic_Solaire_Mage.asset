@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Casque_Epic_Solaire_Mage
   m_EditorClassIdentifier: 
   itemName: Coiffe Solaire
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 07dac9ee2fa00784ca1601285dfce56c, type: 3}
   type: 2
   rarity: 2
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 30
   bonusPhysique: 0
   bonusMagie: 35
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

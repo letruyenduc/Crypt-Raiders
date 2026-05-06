@@ -6,16 +6,61 @@ public class EnemyHealth : MonoBehaviour
     private int currentHealth;
     private RoomManager currentRoom;
 
+    [Header("UI")]
+    public bool isBoss = false;
+    public string bossName = "Général de Pierre";
+    public UnityEngine.UI.Slider healthBar; // Barre au-dessus de sa tête
+    
+    // --- AJOUT : Cache de la caméra ---
+    private Camera mainCamera; 
+
     void Start()
     {
+        // --- NOUVEAUTÉ : DIFFICULTÉ ---
+        if (DifficultyManager.Instance != null)
+        {
+            maxHealth = Mathf.RoundToInt(maxHealth * DifficultyManager.Instance.GetHealthMultiplier());
+            xpReward = Mathf.RoundToInt(xpReward * DifficultyManager.Instance.GetRewardMultiplier());
+            goldReward = Mathf.RoundToInt(goldReward * DifficultyManager.Instance.GetRewardMultiplier());
+        }
+
         currentHealth = maxHealth;
-        // On récupère le manager de la salle dans laquelle l'ennemi a spawn
+        
+        mainCamera = Camera.main;
+
+        if (healthBar != null)
+        {
+            healthBar.maxValue = maxHealth;
+            healthBar.value = currentHealth;
+        }
+
+        // Si c'est un boss, on prévient le HUD global
+        if (isBoss && BossHealthUI.Instance != null)
+        {
+            BossHealthUI.Instance.ShowBossBar(this);
+        }
+
         currentRoom = GetComponentInParent<RoomManager>();
     }
+
+    [Header("Visual Effects")]
+    public GameObject floatingTextPrefab;
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        
+        // Mise à jour des barres
+        if (healthBar != null) healthBar.value = currentHealth;
+        if (isBoss && BossHealthUI.Instance != null) BossHealthUI.Instance.UpdateBossBar(currentHealth);
+
+        // --- TEXTE FLOTTANT ---
+        if (floatingTextPrefab != null)
+        {
+            GameObject ftObj = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity);
+            ftObj.GetComponent<FloatingText>().Setup(damage);
+        }
+
         Debug.Log(name + " a reçu " + damage + " dégâts. Vie restante : " + currentHealth);
 
         // Feedback visuel rapide (clignotement rouge)
@@ -33,10 +78,18 @@ public class EnemyHealth : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.white;
     }
 
+    [Header("Rewards")]
+    public int xpReward = 50;
+    public int goldReward = 20;
+
     void Die()
     {
         Debug.Log(name + " est mort !");
-        // Optionnel : Instancier du loot ici plus tard
+        
+        // Donner les récompenses au joueur
+        if (LevelManager.Instance != null) LevelManager.Instance.AddXP(xpReward);
+        if (CurrencyManager.Instance != null) CurrencyManager.Instance.AddGold(goldReward);
+
         Destroy(gameObject);
     }
     private void OnDestroy()

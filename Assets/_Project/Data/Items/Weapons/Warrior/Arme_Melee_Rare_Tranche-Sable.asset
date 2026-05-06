@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Arme_Melee_Rare_Tranche-Sable
   m_EditorClassIdentifier: 
   itemName: Tranche-Sable
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 5c2f172562b56f0459dea4a2ef93b344, type: 3}
   type: 0
   rarity: 1
   scalingType: 0
@@ -21,4 +21,9 @@ MonoBehaviour:
   bonusHP: 0
   bonusPhysique: 8
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

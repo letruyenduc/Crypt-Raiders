@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Casque_Legendaire_Scarabee_Tank
   m_EditorClassIdentifier: 
   itemName: "Heaume du Scarab\xE9e d'Or"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 950d929b6a242cb46a2f9291b4336911, type: 3}
   type: 2
   rarity: 3
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 200
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

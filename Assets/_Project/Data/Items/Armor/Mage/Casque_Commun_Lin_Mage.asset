@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Casque_Commun_Lin_Mage
   m_EditorClassIdentifier: 
   itemName: Capuche en Lin
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: d87d6706f8dfb1f44993f9a8845326b0, type: 3}
   type: 2
   rarity: 0
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 4
   bonusPhysique: 0
   bonusMagie: 4
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

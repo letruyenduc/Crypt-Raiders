@@ -46,6 +46,18 @@ public class ItemInstance
         this.currentUpgrades = 0;
     }
 
+    // Constructeur pour le chargement de sauvegarde
+    public ItemInstance(ItemData sourceData, int main, int hp, int phys, int mag, int curUpg, int maxUpg)
+    {
+        this.template = sourceData;
+        this.actualMainStat = main;
+        this.actualBonusHP = hp;
+        this.actualBonusPhysique = phys;
+        this.actualBonusMagie = mag;
+        this.currentUpgrades = curUpg;
+        this.maxUpgrades = maxUpg;
+    }
+
     // Fonction utilitaire stricte pour calculer la variance
     private int RollStat(int baseStat)
     {

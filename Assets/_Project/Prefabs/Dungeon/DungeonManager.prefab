@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2423046272171622177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5554336230341930210}
+  - component: {fileID: 3892192364378169091}
+  - component: {fileID: 503052770978509845}
+  m_Layer: 0
+  m_Name: DungeonManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5554336230341930210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423046272171622177}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5559614, y: 3.4647918, z: -0.18192317}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3892192364378169091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423046272171622177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86b1283474283a46a35284ef06275f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRooms: 5
+  roomPrefabs:
+  - {fileID: 8515884218570714308, guid: 4c4dc39f80a056c4881d8f1c5547acc2, type: 3}
+  - {fileID: 502629875453679114, guid: c2838a50dead4424bbf407297fbf045b, type: 3}
+  - {fileID: 502629875453679114, guid: 414fd6147edc4b94abf4e4d3bf14a7b9, type: 3}
+  - {fileID: 502629875453679114, guid: 6c4a5b9c216a95a4f803d7652d796322, type: 3}
+  bossRoomPrefab: {fileID: 1725598510280101683, guid: 95a48bbf1f409a149a1fee6d17ed69b2, type: 3}
+--- !u!114 &503052770978509845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423046272171622177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6fa2b16fb1aca47bfeb22cb802da42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victoryUI: {fileID: 0}
+  lobbySceneName: Lobby

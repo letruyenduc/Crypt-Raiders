@@ -81,6 +81,13 @@ public class TooltipUI : MonoBehaviour
             stats += $"\nAmélioration: {item.currentUpgrades}/{item.maxUpgrades}";
         }
 
+        // --- NOUVEAUTÉ : PRIX DE VENTE ---
+        if (LobbyNPCManager.Instance != null)
+        {
+            int price = LobbyNPCManager.Instance.GetSellPrice(item);
+            stats += $"\n\n<color=yellow>Valeur : {price} Or</color>";
+        }
+
         if (statsText != null) statsText.text = stats;
 
         // Ajuster la couleur de fond selon rareté

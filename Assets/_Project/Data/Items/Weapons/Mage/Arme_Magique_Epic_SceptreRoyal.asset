@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Arme_Magique_Epic_SceptreRoyal
   m_EditorClassIdentifier: 
   itemName: Sceptre Royal
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 15e508310ae8272448e9b969987cb70d, type: 3}
   type: 1
   rarity: 2
   scalingType: 1
@@ -21,4 +21,9 @@ MonoBehaviour:
   bonusHP: 0
   bonusPhysique: 0
   bonusMagie: 25
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

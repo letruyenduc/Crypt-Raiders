@@ -36,6 +36,7 @@ public class VictoryManager : MonoBehaviour
     // Fonction pour le bouton "Rejouer"
     public void Replay()
     {
+        if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
         Time.timeScale = 1f;
         // Recharge la scène actuelle (le donjon)
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -44,6 +45,7 @@ public class VictoryManager : MonoBehaviour
     // Fonction pour le bouton "Lobby"
     public void GoToLobby()
     {
+        if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
         Time.timeScale = 1f;
         SceneManager.LoadScene(lobbySceneName);
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Casque_Epic_Gardien_Tank
   m_EditorClassIdentifier: 
   itemName: Heaume du Gardien
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 50e862b31389e9448a3a536250f75d13, type: 3}
   type: 2
   rarity: 2
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 80
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

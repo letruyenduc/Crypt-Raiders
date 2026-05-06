@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pantalon_Legendaire_Scarabee_Tank
   m_EditorClassIdentifier: 
   itemName: "Gr\xE8ves du Scarab\xE9e"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 1b49046e584ef5b4d8e3a2218f6065e7, type: 3}
   type: 4
   rarity: 3
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 200
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

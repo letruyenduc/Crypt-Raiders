@@ -135,7 +135,7 @@ public void UnequipSpell(ItemInstance spell)
         Projectile proj = projObj.GetComponent<Projectile>();
         if (proj != null)
         {
-            proj.Setup(totalDamage, 10f, spell.template.lifetime, direction, enemyLayers, wallLayers);
+            proj.Setup(totalDamage, spell.template.spellSpeed, spell.template.lifetime, direction, enemyLayers, wallLayers);
         }
 
         DelayedAoE aoe = projObj.GetComponent<DelayedAoE>();
@@ -144,6 +144,35 @@ public void UnequipSpell(ItemInstance spell)
             aoe.Setup(totalDamage, spell.template.aoeDelay, spell.template.aoeRadius, enemyLayers);
         }
 
+        ContinuousAoE continuous = projObj.GetComponent<ContinuousAoE>();
+        if (continuous != null)
+        {
+            continuous.Setup(totalDamage, spell.template.aoeRadius, spell.template.lifetime, enemyLayers);
+        }
+
+        StaticAoE staticAoE = projObj.GetComponent<StaticAoE>();
+        if (staticAoE != null)
+        {
+            staticAoE.Setup(totalDamage, spell.template.aoeRadius, spell.template.lifetime, enemyLayers);
+        }
+
         cooldownTimer = Time.time + spell.template.cooldown;
+    }
+
+    // Fonctions pour le HUD
+    public float GetCooldownPctA()
+    {
+        if (slotA == null) return 0;
+        float remaining = nextCastTimeA - Time.time;
+        if (remaining <= 0) return 0;
+        return remaining / slotA.template.cooldown;
+    }
+
+    public float GetCooldownPctE()
+    {
+        if (slotE == null) return 0;
+        float remaining = nextCastTimeE - Time.time;
+        if (remaining <= 0) return 0;
+        return remaining / slotE.template.cooldown;
     }
 }

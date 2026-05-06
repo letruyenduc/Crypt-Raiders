@@ -21,7 +21,20 @@ public class LootRewardUI : MonoBehaviour
 
     public void ShowRewards()
     {
-        currentRewards = LootManager.Instance.GenerateRewards(3);
+        int lootCount = 3; // Par défaut Normal
+
+        if (DifficultyManager.Instance != null)
+        {
+            switch (DifficultyManager.Instance.currentDifficulty)
+            {
+                case DifficultyLevel.Facile: lootCount = 1; break;
+                case DifficultyLevel.Normal: lootCount = 3; break;
+                case DifficultyLevel.Difficile: lootCount = 4; break;
+                case DifficultyLevel.Cauchemar: lootCount = 5; break;
+            }
+        }
+
+        currentRewards = LootManager.Instance.GenerateRewards(lootCount);
         rewardPanel.SetActive(true);
         
         // On cache tout au début

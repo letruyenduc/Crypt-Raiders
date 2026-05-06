@@ -89,13 +89,14 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void UpdatePlayerStats()
+    public void UpdatePlayerStats()
     {
-        // Calculer les bonus totaux
+        // Calculer les bonus totaux (Équipement + Leveling)
         int totalHP = 0;
         int totalPhysique = 0;
         int totalMagie = 0;
 
+        // 1. Bonus d'équipement
         foreach (var item in equipment.Values)
         {
             if (item != null)
@@ -106,7 +107,15 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        // Appliquer au joueur (On devra mettre à jour PlayerHealth et PlayerController)
+        // 2. Bonus des points de compétence (Style Dungeon Quest)
+        if (LevelManager.Instance != null)
+        {
+            totalHP += LevelManager.Instance.investedHP * 10; // 1 pt = 10 HP
+            totalPhysique += LevelManager.Instance.investedPhysique * 2; // 1 pt = 2 Physique
+            totalMagie += LevelManager.Instance.investedMagie * 2; // 1 pt = 2 Magie
+        }
+
+        // Appliquer au joueur
         var playerHealth = FindObjectOfType<PlayerHealth>();
         if (playerHealth != null)
         {

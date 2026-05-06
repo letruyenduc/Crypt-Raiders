@@ -1,0 +1,89 @@
+using UnityEngine;
+
+public class LevelManager : MonoBehaviour
+{
+    public static LevelManager Instance { get; private set; }
+
+    [Header("Leveling")]
+    public int currentLevel = 1;
+    public float currentXP = 0;
+    public float xpToNextLevel = 100;
+    public float xpMultiplier = 1.2f; // De plus en plus dur
+
+    [Header("Skill Points")]
+    public int skillPoints = 0;
+    public int investedHP = 0;
+    public int investedPhysique = 0;
+    public int investedMagie = 0;
+
+    public System.Action OnLevelUp;
+    public System.Action OnXPChanged;
+    public System.Action OnStatsChanged;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    public void AddXP(float amount)
+    {
+        currentXP += amount;
+        
+        while (currentXP >= xpToNextLevel)
+        {
+            LevelUp();
+        }
+        
+        OnXPChanged?.Invoke();
+    }
+
+    private void LevelUp()
+    {
+        currentXP -= xpToNextLevel;
+        currentLevel++;
+        skillPoints++; // 1 point par niveau comme Dungeon Quest
+        
+        // Calcul du prochain palier (exponentiel)
+        xpToNextLevel = Mathf.RoundToInt(xpToNextLevel * xpMultiplier);
+        
+        OnLevelUp?.Invoke();
+        Debug.Log("LEVEL UP ! Niveau : " + currentLevel);
+    }
+
+    // Fonctions pour dépenser les points
+    public void AddPointHP() { if (skillPoints > 0) { investedHP++; skillPoints--; UpdatePlayerStats(); } }
+    public void AddPointPhysique() { if (skillPoints > 0) { investedPhysique++; skillPoints--; UpdatePlayerStats(); } }
+    public void AddPointMagie() { if (skillPoints > 0) { investedMagie++; skillPoints--; UpdatePlayerStats(); } }
+
+    public int GetResetCost()
+    {
+        // Plus on a de points investis, plus c'est cher
+        int totalPoints = investedHP + investedPhysique + investedMagie;
+        return totalPoints * 50; // 50 gold par point par exemple
+    }
+
+    public void ResetStats()
+    {
+        int cost = GetResetCost();
+        if (CurrencyManager.Instance.SpendGold(cost))
+        {
+            skillPoints += (investedHP + investedPhysique + investedMagie);
+            investedHP = 0;
+            investedPhysique = 0;
+            investedMagie = 0;
+            UpdatePlayerStats();
+        }
+    }
+
+    private void UpdatePlayerStats()
+    {
+        // Force l'InventoryManager à recalculer le tout avec les nouveaux points
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.UpdatePlayerStats();
+        }
+
+        OnStatsChanged?.Invoke(); // Informe les scripts (comme ProgressionUI) du changement
+    }
+}

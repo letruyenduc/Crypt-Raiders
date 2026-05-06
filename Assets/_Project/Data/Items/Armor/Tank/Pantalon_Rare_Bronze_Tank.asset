@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pantalon_Rare_Bronze_Tank
   m_EditorClassIdentifier: 
   itemName: Plaques de Bronze
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: efaa4c274a5969441a4d2f8835e764a1, type: 3}
   type: 4
   rarity: 1
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 30
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

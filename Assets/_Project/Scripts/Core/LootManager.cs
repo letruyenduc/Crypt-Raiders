@@ -27,6 +27,9 @@ public class LootManager : MonoBehaviour
     {
         List<ItemInstance> rewards = new List<ItemInstance>();
         
+        // Nettoyage de sécurité au cas où des cases vides soient dans l'inspecteur
+        allAvailableItems.RemoveAll(x => x == null);
+
         if (allAvailableItems.Count == 0)
         {
             Debug.LogWarning("LootManager: Aucune donnée d'item disponible !");
@@ -37,8 +40,8 @@ public class LootManager : MonoBehaviour
         {
             ItemRarity rolledRarity = RollRarity();
             
-            // Trouver tous les items qui correspondent à cette rareté
-            List<ItemData> matchingItems = allAvailableItems.FindAll(x => x.rarity == rolledRarity);
+            // Trouver tous les items qui correspondent à cette rareté (avec check null supplémentaire)
+            List<ItemData> matchingItems = allAvailableItems.FindAll(x => x != null && x.rarity == rolledRarity);
             
             // Si aucun item de cette rareté n'existe, on prend n'importe lequel par sécurité
             if (matchingItems.Count == 0)

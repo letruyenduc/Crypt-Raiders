@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Plastron_Commun_Bandelettes_Tank
   m_EditorClassIdentifier: 
   itemName: "Torse Embaum\xE9"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: ae0f3bab3b3e9124b86a23504d4ad2b9, type: 3}
   type: 3
   rarity: 0
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 20
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

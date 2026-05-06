@@ -49,6 +49,25 @@ public class InventorySlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (currentItem == null) return;
 
+        // --- NOUVEAUTÉ : INTERACTION AVEC LES PNJ DU LOBBY ---
+        if (LobbyNPCManager.Instance != null)
+        {
+            if (LobbyNPCManager.Instance.isMerchantOpen)
+            {
+                // Ne vendre que les objets dans le sac à dos (pas l'équipement)
+                if (transform.parent == InventoryUI.Instance.backpackGrid)
+                {
+                    LobbyNPCManager.Instance.SellItem(currentItem);
+                }
+                return; // On arrête là pour ne pas équiper l'objet par erreur
+            }
+            else if (LobbyNPCManager.Instance.isBlacksmithOpen)
+            {
+                LobbyNPCManager.Instance.SelectItemForBlacksmith(currentItem);
+                return;
+            }
+        }
+
         // On vérifie si ce slot appartient au sac à dos ou à l'équipement
         // Si le parent du slot n'est pas la grille du sac à dos, c'est que c'est un slot d'équipement
         bool isEquipmentSlot = transform.parent != InventoryUI.Instance.backpackGrid;

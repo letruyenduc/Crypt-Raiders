@@ -29,6 +29,9 @@ public class StartRoomController : MonoBehaviour
 
         countdownText.text = "GO !";
         OpenDoor();
+
+        // --- NOUVEAUTÉ : LANCER LE CHRONO ---
+        if (DungeonTimer.Instance != null) DungeonTimer.Instance.StartTimer();
         
         // AJOUTE CES LIGNES ICI :
         if (DungeonGenerator.instance != null && nextRoomSpawnPoint != null)

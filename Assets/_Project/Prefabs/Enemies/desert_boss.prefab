@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+  rotationSpeed: 10
   chaseRange: 10
   attackRange: 1.5
   attackRate: 1
@@ -188,4 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c590cfe2bf902642b8fbdafa0876207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 10
+  floatingTextPrefab: {fileID: 6420442413539726517, guid: 4129ccbc6d52d37488c5cf6e621a89e8, type: 3}
+  xpReward: 50
+  goldReward: 20

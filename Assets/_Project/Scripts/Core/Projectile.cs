@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour
     private LayerMask enemyLayers;
     private LayerMask wallLayers;
 
+    [Header("Orientation")]
+    public float rotationOffset = 0f; // Permet de corriger si le sprite pointe vers le haut/bas
+
     public void Setup(int damage, float speed, float lifetime, Vector2 direction, LayerMask enemyLayers, LayerMask wallLayers)
     {
         this.damage = damage;
@@ -18,9 +21,9 @@ public class Projectile : MonoBehaviour
         this.enemyLayers = enemyLayers;
         this.wallLayers = wallLayers;
 
-        // Rotation du projectile vers sa direction
+        // Rotation corrigée avec l'offset
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Euler(0, 0, angle + rotationOffset);
 
         Destroy(gameObject, lifetime);
     }

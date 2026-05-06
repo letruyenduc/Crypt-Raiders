@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Arme_Melee_Epic_HachedelaCrypte
   m_EditorClassIdentifier: 
   itemName: Hache de la Crypte
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: ea463b98c5b1228418546f5c44bfb0e9, type: 3}
   type: 0
   rarity: 2
   scalingType: 0
@@ -21,4 +21,9 @@ MonoBehaviour:
   bonusHP: 0
   bonusPhysique: 20
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

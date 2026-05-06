@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pantalon_Rare_Cultiste_Mage
   m_EditorClassIdentifier: 
   itemName: Chausses du Cultiste
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: a979e7ffc78995240a1ddc2d5e1c8ae9, type: 3}
   type: 4
   rarity: 1
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 12
   bonusPhysique: 0
   bonusMagie: 14
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

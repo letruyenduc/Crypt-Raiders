@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Casque_Legendaire_Vizir_Mage
   m_EditorClassIdentifier: 
   itemName: Halo du Vizir Immortel
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: a40b5e60863a2d64d9fd5af6ff2e84a5, type: 3}
   type: 2
   rarity: 3
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 80
   bonusPhysique: 0
   bonusMagie: 90
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

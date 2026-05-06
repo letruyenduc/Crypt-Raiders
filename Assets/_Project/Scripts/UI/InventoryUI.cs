@@ -9,7 +9,8 @@ public class InventoryUI : MonoBehaviour
     [Header("Panels")]
     public GameObject inventoryPanel;
     public Transform backpackGrid;
-    
+    private Transform originalGridParent; // Nouveau
+
     [Header("Prefabs")]
     public GameObject slotPrefab;
 
@@ -25,6 +26,8 @@ public class InventoryUI : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        if (backpackGrid != null) originalGridParent = backpackGrid.parent;
     }
 
     private void Start()
@@ -38,6 +41,43 @@ public class InventoryUI : MonoBehaviour
     {
         inventoryPanel.SetActive(!inventoryPanel.activeSelf);
         if (inventoryPanel.activeSelf) RefreshUI();
+    }
+
+    // --- NOUVEAUTÉ : DÉPLACER SEULEMENT LA GRILLE ---
+    public void SetBackpackParent(Transform newParent)
+    {
+        if (backpackGrid == null || newParent == null) return;
+        
+        backpackGrid.SetParent(newParent);
+        
+        // Forcer le centrage absolu dans le nouveau parent
+        RectTransform rt = backpackGrid.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            rt.anchoredPosition = Vector2.zero;
+            rt.anchorMin = new Vector2(0, 0); // Stretch
+            rt.anchorMax = new Vector2(1, 1); // Stretch
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+        }
+
+        RefreshUI();
+    }
+
+    public void RestoreBackpackParent()
+    {
+        if (backpackGrid == null || originalGridParent == null) return;
+        
+        backpackGrid.SetParent(originalGridParent);
+        
+        RectTransform rt = backpackGrid.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            rt.anchoredPosition = Vector2.zero;
+            rt.anchorMin = new Vector2(0.5f, 0.5f); // Remise au centre par défaut
+            rt.anchorMax = new Vector2(0.5f, 0.5f);
+            rt.sizeDelta = new Vector2(400, 400); // Taille par défaut de ton sac
+        }
     }
 
     public void RefreshUI()

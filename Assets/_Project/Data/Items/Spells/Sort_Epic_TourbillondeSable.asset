@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sort_Epic_TourbillondeSable
   m_EditorClassIdentifier: 
   itemName: Tourbillon de Sable
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 687b91f7a0b9f7b41b47f3fb6712978d, type: 3}
   type: 5
   rarity: 2
   scalingType: 0
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 0
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 8933192551458579908, guid: 2cce00976f89ede468af9fadb59a5da7, type: 3}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

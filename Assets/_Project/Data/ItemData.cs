@@ -24,8 +24,9 @@ public class ItemData : ScriptableObject
     public GameObject spellPrefab;
     public float cooldown = 1.0f;
     public float lifetime = 3.0f;
-    public float aoeRadius = 3.0f; // Rayon de la zone d'effet
-    public float aoeDelay = 0.5f;  // Temps avant l'explosion
+    public float spellSpeed = 10.0f; // Nouvelle variable
+    public float aoeRadius = 3.0f; 
+    public float aoeDelay = 0.5f; 
 
     [TextArea(2, 4)]
     public string description;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Plastron_Legendaire_Seigneur_War
   m_EditorClassIdentifier: 
   itemName: Manteau des Dunes
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 0d90194cd979d17499fbe12e01d1ae34, type: 3}
   type: 3
   rarity: 3
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 240
   bonusPhysique: 120
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

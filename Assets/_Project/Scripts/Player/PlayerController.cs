@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 0.6f;
     public float attackOffset = 0.8f;
     public LayerMask enemyLayers;
-    public int baseAttackDamage = 1;
+    public int baseAttackDamage = 15;
     public float attackCooldown = 0.5f; 
 
     private int bonusPhysique = 0;

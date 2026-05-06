@@ -47,8 +47,18 @@ public class GameOverManager : MonoBehaviour
 
         // 4. SÉCURITÉ ABSOLUE : DÉGELER LE TEMPS
         // Si tu oublies ça, ta scène Lobby sera complètement figée à son chargement !
-        Time.timeScale = 1f; 
+        Time.timeScale = 1f;
+
+        // --- SAUVEGARDE OU SUPPRESSION (Hardcore) ---
+        if (DifficultyManager.Instance != null && DifficultyManager.Instance.currentDifficulty == DifficultyLevel.Cauchemar)
+        {
+            if (SaveManager.Instance != null) SaveManager.Instance.ClearSave();
+            Debug.Log("GAME OVER: Mode Cauchemar détecté. Sauvegarde supprimée !");
+        }
+        else
+        {
+            if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
+        }
 
         SceneManager.LoadScene(lobbySceneName);
-    }
-}
+        }}

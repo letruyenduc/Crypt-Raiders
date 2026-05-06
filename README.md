@@ -1,57 +1,51 @@
 # Crypt Raiders - RPG Dungeon Crawler 2D
 
 ## 📜 Description du Projet
-**Crypt Raiders** est un Action-RPG en 2D développé sous Unity, plongé dans une atmosphère mystique de **Désert et de Cryptes Anciennes**. Le joueur explore des tombeaux oubliés, combat des gardiens embaumés et progresse via un système de loot riche et structuré.
+**Crypt Raiders** est un Action-RPG en 2D inspiré de *Dungeon Quest*, plongé dans une atmosphère mystique de **Désert et de Cryptes Anciennes**. Le joueur explore des tombeaux, gère son équipement, améliore ses statistiques et progresse à travers des difficultés croissantes.
 
 ---
 
 ## 🏗️ Architecture Technique
 
-### 1. Data-Driven Design (`ScriptableObjects`)
-Le projet utilise une architecture basée sur les données pour faciliter l'équilibrage et l'extension du contenu.
-- **ItemData** : Structure pivot définissant les Armes, Sorts et Armures.
-- **ItemType** : `Arme_Melee`, `Arme_Magique`, `Casque`, `Plastron`, `Pantalon`, `Sort`.
-- **Rareté** : `Commun` (Blanc), `Rare` (Bleu), `Epic` (Violet), `Legendaire` (Orange).
-- **Scaling** : Système de calcul de dégâts basé sur la `Physique` ou la `Magie`.
+### 1. Systèmes de Progression & Stats
+- **Leveling System** : Courbe d'XP exponentielle. Chaque niveau octroie 1 point de compétence.
+- **Points de Statistique** : Attribution manuelle (Vie, Physique, Magique). Système de Reset payant en Or.
+- **Équilibrage Core** : Player 100 HP / Enemies 50 HP / Base Damage 15.
 
-### 2. Automatisation (Editor Scripts)
-Pour garantir la cohérence des sets et gagner du temps, deux générateurs sont disponibles dans le menu **RPG** de l'éditeur Unity :
-- **Générer Armures du Désert** : Crée 36 pièces d'armure réparties en 3 classes :
-    - **Tank** (Set du Scarabée/Gardien) : Focus Max HP.
-    - **Warrior** (Set d'Anubis/Pillard) : Équilibre HP / Bonus Physique.
-    - **Mage** (Set du Vizir/Solaire) : Focus Bonus Magique.
-- **Générer Armes et Sorts** : Crée la base offensive (Lames de bronze, Sceptres royaux, Souffles de momie, etc.).
+### 2. Économie du Lobby (PNJ)
+- **Système de Proximité** : Les interfaces s'ouvrent/se ferment automatiquement via `NPCTrigger`.
+- **Le Marchand** : Vente d'objets du sac à dos contre de l'Or (prix basé sur la rareté et l'upgrade).
+- **Le Forgeron** : Amélioration d'objets (+10% stats par niveau). Interface avec prévisualisation des gains (+X) et suivi de progression [Actuel/Max].
+- **Gestionnaire d'Inventaire Dynamique** : La grille de l'inventaire se "téléporte" et s'adapte automatiquement aux menus des PNJ.
 
-*Convention de nommage des fichiers : `[Type]_[Rareté]_[Classe/Set]_[Nom].asset`*
+### 3. Système de Difficulté Dynamique
+- **4 Niveaux** : Facile, Normal, Difficile, Cauchemar.
+- **Scaling Automatique** : Multiplicateurs appliqués sur les PV ennemis, les Dégâts, l'XP, l'Or et la **quantité de Loot** (1 à 5 objets).
+- **Mode Cauchemar** : Mode "Une seule vie" (La mort renvoie instantanément au Lobby sans respawn).
 
-### 3. Systèmes Core
-- **Génération Procédurale** : Un `DungeonGenerator` assemble des salles (`Rooms`) dynamiquement pour créer un labyrinthe unique à chaque run.
-- **IA de Combat** : Ennemis utilisant un système de **Pathfinding A*** personnalisé pour traquer le joueur dans les couloirs étroits de la crypte.
-- **Health System** : Gestion robuste des points de vie avec feedbacks visuels (Hit flash) et gestion de la mort.
+### 4. Mécaniques de Donjon & Survie
+- **Dungeon Timer** : Limite de 5 minutes par donjon. Synchronisé avec le décompte de démarrage ("3, 2, 1, GO!").
+- **Système de Respawn** : Checkpoints automatiques à l'entrée de chaque salle. 
+- **Pénalités** : Mourir retire 30 secondes au timer global (sauf en Cauchemar).
+- **Protection** : 2 secondes d'invincibilité avec effet de clignotement après un respawn.
 
----
+### 5. Sauvegarde Persistante (`SaveManager`)
+- **PlayerPrefs** : Pour les données simples (Niveau, Or, Points).
+- **JSON Serialization** : Pour l'inventaire complet, préservant les statistiques aléatoires et les niveaux d'amélioration de chaque objet.
+- **Auto-Save** : Sauvegarde lors des transitions de scènes et des Game Over.
 
-## 🏜️ Thématique : Désert & Crypte
-Tout le contenu est visuellement et textuellement ancré dans cet univers :
-- **Équipement** : Bandelettes d'embaumement, masques d'Anubis, linceuls de vizir, lames de soleil.
-- **Ennemis** : Momies, scarabées dorés, gardiens de pierre.
-- **Environnement** : Salles de sable, piliers gravés, éclairage tamisé de torches.
-
----
-
-## 🛠️ Instructions pour les Développeurs
-
-### Ajouter du contenu
-1. Pour ajouter une nouvelle pièce d'armure, modifiez `ArmorDatabaseGenerator.cs` et relancez le script via `RPG > Générer Armures du Désert`.
-2. Les icônes et descriptions peuvent être assignées directement sur les fichiers `.asset` générés dans `Assets/Items/`.
-
-### Debug & Validation
-- La console Unity affiche le succès des générations et l'état des salles lors du jeu.
-- Vérifiez que les `LayerMasks` du `PathfindingGrid` sont correctement configurés pour les murs de la crypte.
+### 6. Combat Feedback (VFX)
+- **Dégâts Flottants** : Nombres sautant au-dessus des ennemis lors des impacts.
+- **Damage Flash** : Flash rouge à l'écran lors de la réception de dégâts par le joueur.
 
 ---
 
-## ✅ TODO List Prioritaire
-- [ ] **Système d'Inventaire** : Interface UI pour équiper les 50+ objets générés.
-- [ ] **Loot Drop UI** : Feedback visuel au sol lors de la défaite d'un boss.
-- [ ] **Spell Manager** : Lier les ScriptableObjects de Sorts aux touches de raccourci (A/E).
+## ✅ TODO List
+- [x] **Système d'Inventaire** : Complet avec équipement et déséquipement.
+- [x] **Progression & Stats** : XP, Niveaux et Points de compétence.
+- [x] **Économie** : Marchand (Vente) et Forgeron (Upgrade).
+- [x] **Navigation** : Lobby fonctionnel avec sélection de Map et Difficulté.
+- [x] **Sauvegarde** : Système persistant JSON.
+- [ ] **Visualisation de l'Équipement** : Changement du sprite joueur selon l'armure.
+- [ ] **Feedback Impact (VFX)** : Particules et Screen Shake.
+- [ ] **PNJ & Quêtes** : Ajout de dialogues et missions secondaires.

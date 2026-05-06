@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Sort_Rare_\xC9clatdeVerre"
   m_EditorClassIdentifier: 
   itemName: "\xC9clat de Verre"
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 7b29f0fbed414e242b10fb4aa268f580, type: 3}
   type: 5
   rarity: 1
   scalingType: 1
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 0
   bonusPhysique: 0
   bonusMagie: 0
+  spellPrefab: {fileID: 8939818343260971580, guid: 88b429bf9c3bd7246a2552ddd498ea04, type: 3}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 18
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

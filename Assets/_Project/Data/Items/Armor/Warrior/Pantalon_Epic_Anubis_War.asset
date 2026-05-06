@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pantalon_Epic_Anubis_War
   m_EditorClassIdentifier: 
   itemName: Marche d'Anubis
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 0d6d1d886abdb2d4abbc41e156cf610d, type: 3}
   type: 4
   rarity: 2
   scalingType: 2
@@ -21,4 +21,10 @@ MonoBehaviour:
   bonusHP: 50
   bonusPhysique: 25
   bonusMagie: 0
+  spellPrefab: {fileID: 0}
+  cooldown: 1
+  lifetime: 3
+  spellSpeed: 10
+  aoeRadius: 3
+  aoeDelay: 0.5
   description: 

@@ -9,6 +9,7 @@ public class SimpleEnemyFollow : MonoBehaviour
     public float chaseRange = 10f;
     public float attackRange = 1.2f;
     public float attackRate = 1f;
+    public int baseDamage = 15;
 
     private Transform player;
     private Rigidbody2D rb;
@@ -128,7 +129,15 @@ public class SimpleEnemyFollow : MonoBehaviour
     void Attack()
     {
         PlayerHealth ph = player.GetComponent<PlayerHealth>();
-        if (ph != null) ph.TakeDamage(1);
+        if (ph != null)
+        {
+            int finalDamage = baseDamage;
+            if (DifficultyManager.Instance != null)
+            {
+                finalDamage = Mathf.RoundToInt(baseDamage * DifficultyManager.Instance.GetDamageMultiplier());
+            }
+            ph.TakeDamage(finalDamage);
+        }
     }
 
     void OnDrawGizmosSelected()
