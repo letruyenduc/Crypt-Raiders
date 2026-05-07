@@ -229,12 +229,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 68d68fb6632bd014bb4059d534b18728, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -276,8 +276,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 5, y: 5}
+    newSize: {x: 5, y: 5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -346,9 +346,9 @@ MonoBehaviour:
   isBoss: 0
   bossName: "G\xE9n\xE9ral de Pierre"
   healthBar: {fileID: 6052710875955293577}
-  floatingTextPrefab: {fileID: 6420442413539726517, guid: 4129ccbc6d52d37488c5cf6e621a89e8, type: 3}
   xpReward: 50
   goldReward: 20
+  floatingTextPrefab: {fileID: 6420442413539726517, guid: 4129ccbc6d52d37488c5cf6e621a89e8, type: 3}
 --- !u!1 &6854609206112337153
 GameObject:
   m_ObjectHideFlags: 0

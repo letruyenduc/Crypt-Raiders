@@ -35,6 +35,14 @@ public class LootRewardUI : MonoBehaviour
         }
 
         currentRewards = LootManager.Instance.GenerateRewards(lootCount);
+
+        // --- NOUVEAUTÉ : AJOUT INSTANTANÉ ---
+        // On donne les objets dès qu'ils sont générés
+        foreach (var item in currentRewards)
+        {
+            LootManager.Instance.GiveLootToPlayer(item);
+        }
+
         rewardPanel.SetActive(true);
         
         // On cache tout au début
@@ -67,12 +75,7 @@ public class LootRewardUI : MonoBehaviour
         // 2. Pause pour laisser admirer le loot
         yield return new WaitForSeconds(2.0f);
 
-        // 3. Fade Out global et ajout inventaire
-        foreach (var item in currentRewards)
-        {
-            LootManager.Instance.GiveLootToPlayer(item);
-        }
-
+        // 3. Fade Out global
         yield return StartCoroutine(FadePanel(rewardPanel, 1f, 0f, 0.8f));
         
         rewardPanel.SetActive(false);

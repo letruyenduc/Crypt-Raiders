@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7198717168931569395}
   - component: {fileID: 8371103190602438642}
   - component: {fileID: 3215316118820322013}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BrulureSolaire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9802058, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6eeed037da83543b79d63623a9ab50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationOffset: 0
 --- !u!50 &3215316118820322013
 Rigidbody2D:
   serializedVersion: 4

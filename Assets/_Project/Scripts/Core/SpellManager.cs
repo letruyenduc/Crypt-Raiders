@@ -20,10 +20,23 @@ public class SpellManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else 
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         // On cherche le joueur dans la scène au démarrage
+        UpdatePlayerReference();
+    }
+
+    private void UpdatePlayerReference()
+    {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) playerTransform = player.transform;
     }
@@ -32,6 +45,7 @@ public class SpellManager : MonoBehaviour
     {
         currentBonusPhysique = bonusPhysique;
         currentBonusMagie = bonusMagie;
+        Debug.Log($"SpellManager: Stats mises à jour - Phys: {currentBonusPhysique}, Mag: {currentBonusMagie}");
     }
 
     private void Update()
@@ -39,8 +53,7 @@ public class SpellManager : MonoBehaviour
         // Si on n'a pas trouvé le joueur, on réessaie (utile si spawn dynamique)
         if (playerTransform == null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null) playerTransform = player.transform;
+            UpdatePlayerReference();
         }
 
         if (Input.GetKeyDown(KeyCode.Q)) 

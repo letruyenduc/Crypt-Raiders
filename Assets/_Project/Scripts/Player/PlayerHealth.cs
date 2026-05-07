@@ -19,7 +19,14 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        // Initialisation propre au démarrage
+        // On demande à l'InventoryManager de nous envoyer les bonus actuels
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.UpdatePlayerStats();
+        }
+
+        // --- NOUVEAUTÉ : SOIN TOTAL AU CHARGEMENT ---
+        // On remet la vie au maximum (incluant les bonus d'armure/stats)
         currentHealth = GetTotalMaxHealth();
         UpdateHealthUI(); 
     }

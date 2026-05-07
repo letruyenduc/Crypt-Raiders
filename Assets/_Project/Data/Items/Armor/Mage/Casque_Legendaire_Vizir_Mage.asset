@@ -16,7 +16,7 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: a40b5e60863a2d64d9fd5af6ff2e84a5, type: 3}
   type: 2
   rarity: 3
-  scalingType: 2
+  scalingType: 1
   mainStatValue: 0
   bonusHP: 80
   bonusPhysique: 0

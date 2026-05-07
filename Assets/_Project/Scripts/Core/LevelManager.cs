@@ -22,8 +22,15 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void AddXP(float amount)
@@ -52,38 +59,83 @@ public class LevelManager : MonoBehaviour
     }
 
     // Fonctions pour dépenser les points
-    public void AddPointHP() { if (skillPoints > 0) { investedHP++; skillPoints--; UpdatePlayerStats(); } }
-    public void AddPointPhysique() { if (skillPoints > 0) { investedPhysique++; skillPoints--; UpdatePlayerStats(); } }
-    public void AddPointMagie() { if (skillPoints > 0) { investedMagie++; skillPoints--; UpdatePlayerStats(); } }
+    public void AddPointHP() 
+    { 
+        if (skillPoints > 0) 
+        { 
+            investedHP++; 
+            skillPoints--; 
+            Debug.Log($"LevelManager: Point HP ajouté. Nouveau total : {investedHP}, Points restants : {skillPoints}");
+            UpdatePlayerStats(); 
+        } 
+        else Debug.LogWarning("LevelManager: Pas de points de compétence disponibles !");
+    }
+
+    public void AddPointPhysique() 
+    { 
+        if (skillPoints > 0) 
+        { 
+            investedPhysique++; 
+            skillPoints--; 
+            Debug.Log($"LevelManager: Point Physique ajouté. Nouveau total : {investedPhysique}, Points restants : {skillPoints}");
+            UpdatePlayerStats(); 
+        } 
+        else Debug.LogWarning("LevelManager: Pas de points de compétence disponibles !");
+    }
+
+    public void AddPointMagie() 
+    { 
+        if (skillPoints > 0) 
+        { 
+            investedMagie++; 
+            skillPoints--; 
+            Debug.Log($"LevelManager: Point Magie ajouté. Nouveau total : {investedMagie}, Points restants : {skillPoints}");
+            UpdatePlayerStats(); 
+        } 
+        else Debug.LogWarning("LevelManager: Pas de points de compétence disponibles !");
+    }
 
     public int GetResetCost()
     {
-        // Plus on a de points investis, plus c'est cher
         int totalPoints = investedHP + investedPhysique + investedMagie;
-        return totalPoints * 50; // 50 gold par point par exemple
+        return totalPoints * 50; 
     }
 
     public void ResetStats()
     {
         int cost = GetResetCost();
-        if (CurrencyManager.Instance.SpendGold(cost))
+        Debug.Log($"LevelManager: Tentative de Reset. Coût : {cost}, Or actuel : {(CurrencyManager.Instance != null ? CurrencyManager.Instance.gold : -1)}");
+        
+        if (CurrencyManager.Instance != null && CurrencyManager.Instance.SpendGold(cost))
         {
             skillPoints += (investedHP + investedPhysique + investedMagie);
             investedHP = 0;
             investedPhysique = 0;
             investedMagie = 0;
+            Debug.Log("LevelManager: Reset réussi ! Points récupérés.");
             UpdatePlayerStats();
+        }
+        else
+        {
+            Debug.LogWarning("LevelManager: Reset échoué (Pas assez d'or ou Manager manquant)");
         }
     }
 
     private void UpdatePlayerStats()
     {
-        // Force l'InventoryManager à recalculer le tout avec les nouveaux points
+        // On informe les autres managers (s'ils existent)
         if (InventoryManager.Instance != null)
         {
             InventoryManager.Instance.UpdatePlayerStats();
         }
 
-        OnStatsChanged?.Invoke(); // Informe les scripts (comme ProgressionUI) du changement
+        // On informe l'UI
+        OnStatsChanged?.Invoke(); 
+        
+        // --- NOUVEAUTÉ : AUTO-SAVE SÉCURISÉ ---
+        if (SaveManager.Instance != null) 
+        {
+            SaveManager.Instance.SaveGame();
+        }
     }
 }

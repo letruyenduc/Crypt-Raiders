@@ -56,4 +56,17 @@ public class DifficultyManager : MonoBehaviour
             default: return 1.0f;
         }
     }
+
+    // --- NOUVEAUTÉ : TAILLE DU DONJON ---
+    public int GetMaxRooms()
+    {
+        switch (currentDifficulty)
+        {
+            case DifficultyLevel.Facile: return 3;     // Donjon très court
+            case DifficultyLevel.Normal: return 5;     // Donjon standard
+            case DifficultyLevel.Difficile: return 8;  // Donjon long
+            case DifficultyLevel.Cauchemar: return 12; // Donjon épique
+            default: return 5;
+        }
+    }
 }

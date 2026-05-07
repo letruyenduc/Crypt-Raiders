@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Pantalon_Commun_CuirSeche_War
   m_EditorClassIdentifier: 
   itemName: "Bottes en Cuir S\xE9ch\xE9"
-  itemIcon: {fileID: 21300000, guid: f7182e9f14b2d9a43b0befa4a2e7716a, type: 3}
+  itemIcon: {fileID: 21300000, guid: c11562907ad6bd6468db4ad2f2230de3, type: 3}
   type: 4
   rarity: 0
-  scalingType: 2
+  scalingType: 0
   mainStatValue: 0
   bonusHP: 6
   bonusPhysique: 3

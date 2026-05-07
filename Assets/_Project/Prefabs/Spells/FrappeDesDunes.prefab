@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6938431254525562366}
   - component: {fileID: 8347230305500260828}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Impact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9169811, g: 0.6132813, b: 0.37198284, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5960602010628467386}
   - component: {fileID: 317296754253263397}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FrappeDesDunes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 8090332789599617465}
   - component: {fileID: 6376366202191742512}
   - component: {fileID: 4784939100989116222}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

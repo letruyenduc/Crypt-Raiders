@@ -14,11 +14,20 @@ public class InventoryManager : MonoBehaviour
 
     // Event pour notifier l'UI des changements
     public System.Action OnInventoryChanged;
+    public System.Action OnInventoryFull; // Nouveau
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else 
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         // Initialisation des slots d'équipement vides
         equipment[ItemType.Casque] = null;

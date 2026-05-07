@@ -14,6 +14,10 @@ public class EnemyHealth : MonoBehaviour
     // --- AJOUT : Cache de la caméra ---
     private Camera mainCamera; 
 
+    [Header("Rewards")]
+    public int xpReward = 50;
+    public int goldReward = 20;
+
     void Start()
     {
         // --- NOUVEAUTÉ : DIFFICULTÉ ---
@@ -49,10 +53,18 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        
-        // Mise à jour des barres
-        if (healthBar != null) healthBar.value = currentHealth;
-        if (isBoss && BossHealthUI.Instance != null) BossHealthUI.Instance.UpdateBossBar(currentHealth);
+
+        // Mise à jour de la petite barre au-dessus de la tête
+        if (healthBar != null)
+        {
+            healthBar.value = currentHealth;
+        }
+
+        // --- NOUVEAUTÉ : MISE À JOUR DE LA GROSSE BARRE DE BOSS ---
+        if (isBoss && BossHealthUI.Instance != null)
+        {
+            BossHealthUI.Instance.UpdateBossBar(currentHealth);
+        }
 
         // --- TEXTE FLOTTANT ---
         if (floatingTextPrefab != null)
@@ -64,8 +76,12 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log(name + " a reçu " + damage + " dégâts. Vie restante : " + currentHealth);
 
         // Feedback visuel rapide (clignotement rouge)
-        GetComponent<SpriteRenderer>().color = Color.red;
-        Invoke("ResetColor", 0.1f);
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.color = Color.red;
+            Invoke("ResetColor", 0.1f);
+        }
 
         if (currentHealth <= 0)
         {
@@ -75,12 +91,9 @@ public class EnemyHealth : MonoBehaviour
 
     void ResetColor()
     {
-        GetComponent<SpriteRenderer>().color = Color.white;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.color = Color.white;
     }
-
-    [Header("Rewards")]
-    public int xpReward = 50;
-    public int goldReward = 20;
 
     void Die()
     {
@@ -92,6 +105,7 @@ public class EnemyHealth : MonoBehaviour
 
         Destroy(gameObject);
     }
+
     private void OnDestroy()
     {
         // C'est ici que la salle vérifie si elle est vide

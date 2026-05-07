@@ -71,9 +71,17 @@ public class LootManager : MonoBehaviour
     {
         if (InventoryManager.Instance != null)
         {
-            InventoryManager.Instance.backpack.Add(item);
-            InventoryManager.Instance.OnInventoryChanged?.Invoke();
-            Debug.Log($"Loot ajouté : {item.template.itemName}");
+            if (InventoryManager.Instance.backpack.Count < InventoryManager.Instance.maxBackpackSlots)
+            {
+                InventoryManager.Instance.backpack.Add(item);
+                InventoryManager.Instance.OnInventoryChangedNotify();
+                Debug.Log($"Loot ajouté : {item.template.itemName}");
+            }
+            else
+            {
+                Debug.LogWarning("Inventaire PLEIN !");
+                InventoryManager.Instance.OnInventoryFull?.Invoke();
+            }
         }
     }
 }

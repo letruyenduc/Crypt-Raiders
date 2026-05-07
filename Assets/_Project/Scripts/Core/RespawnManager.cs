@@ -47,6 +47,9 @@ public class RespawnManager : MonoBehaviour
 
             // On réinitialise sa vie (on peut le soigner totalement ou partiellement)
             playerHealth.RespawnHeal();
+
+            // --- NOUVEAUTÉ : SAUVEGARDE DE SÉCURITÉ ---
+            if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
         }
     }
 }

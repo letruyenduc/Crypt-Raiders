@@ -10,6 +10,9 @@ public class BossHealthUI : MonoBehaviour
     public GameObject bossPanel;
     public Slider healthBar;
     public TextMeshProUGUI bossNameText;
+    public TextMeshProUGUI healthText; // Nouveau : Pour afficher "500 / 500"
+
+    private int currentBossMaxHealth;
 
     private void Awake()
     {
@@ -23,13 +26,25 @@ public class BossHealthUI : MonoBehaviour
     {
         bossPanel.SetActive(true);
         bossNameText.text = boss.bossName;
-        healthBar.maxValue = boss.maxHealth;
-        healthBar.value = boss.maxHealth;
+        currentBossMaxHealth = boss.maxHealth;
+        
+        healthBar.maxValue = currentBossMaxHealth;
+        healthBar.value = currentBossMaxHealth;
+
+        if (healthText != null)
+        {
+            healthText.text = currentBossMaxHealth + " / " + currentBossMaxHealth;
+        }
     }
 
     public void UpdateBossBar(int currentHealth)
     {
         healthBar.value = currentHealth;
+
+        if (healthText != null)
+        {
+            healthText.text = currentHealth + " / " + currentBossMaxHealth;
+        }
         
         if (currentHealth <= 0)
         {

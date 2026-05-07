@@ -38,44 +38,92 @@ public class ProgressionUI : MonoBehaviour
         RefreshUI();
     }
 
+    private void OnDestroy()
+    {
+        // TRÈS IMPORTANT : On se désabonne pour éviter de garder des liens morts
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.OnXPChanged -= RefreshUI;
+            LevelManager.Instance.OnLevelUp -= RefreshUI;
+            LevelManager.Instance.OnStatsChanged -= RefreshUI;
+        }
+
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.OnGoldChanged -= RefreshUI;
+        }
+    }
+
     public void RefreshUI()
     {
         if (LevelManager.Instance == null) return;
 
         // 1. Infos de base
-        levelText.text = "NIVEAU " + LevelManager.Instance.currentLevel;
-        xpText.text = $"{LevelManager.Instance.currentXP} / {LevelManager.Instance.xpToNextLevel}";
-        xpBar.maxValue = LevelManager.Instance.xpToNextLevel;
-        xpBar.value = LevelManager.Instance.currentXP;
+        if (levelText != null) levelText.text = "NIVEAU " + LevelManager.Instance.currentLevel;
+        if (xpText != null) xpText.text = $"{LevelManager.Instance.currentXP} / {LevelManager.Instance.xpToNextLevel}";
+        if (xpBar != null)
+        {
+            xpBar.maxValue = LevelManager.Instance.xpToNextLevel;
+            xpBar.value = LevelManager.Instance.currentXP;
+        }
 
-        if (CurrencyManager.Instance != null)
+        if (CurrencyManager.Instance != null && goldText != null)
             goldText.text = CurrencyManager.Instance.gold.ToString() + " G";
 
         // 2. Points et Stats investies
-        availablePointsText.text = "Points : " + LevelManager.Instance.skillPoints;
-        hpStatText.text = "HP : +" + (LevelManager.Instance.investedHP * 10);
-        physStatText.text = "Phys : +" + (LevelManager.Instance.investedPhysique * 2);
-        magStatText.text = "Spell : +" + (LevelManager.Instance.investedMagie * 2);
+        if (availablePointsText != null) availablePointsText.text = "Points : " + LevelManager.Instance.skillPoints;
+        if (hpStatText != null) hpStatText.text = "HP : +" + (LevelManager.Instance.investedHP * 10);
+        if (physStatText != null) physStatText.text = "Phys : +" + (LevelManager.Instance.investedPhysique * 2);
+        if (magStatText != null) magStatText.text = "Spell : +" + (LevelManager.Instance.investedMagie * 2);
 
         // 3. Bouton Reset
         int cost = LevelManager.Instance.GetResetCost();
-        resetCostText.text = $"RESET ({cost} G)";
+        if (resetCostText != null) resetCostText.text = $"RESET ({cost} G)";
         
         // Griser le bouton si on n'a pas assez d'argent
-        if (CurrencyManager.Instance != null)
+        if (CurrencyManager.Instance != null && resetButton != null)
         {
             resetButton.interactable = CurrencyManager.Instance.gold >= cost && cost > 0;
         }
     }
 
     // Fonctions pour les boutons (à lier dans Unity)
-    public void OnClickAddHP() { LevelManager.Instance.AddPointHP(); RefreshUI(); }
-    public void OnClickAddPhys() { LevelManager.Instance.AddPointPhysique(); RefreshUI(); }
-    public void OnClickAddMag() { LevelManager.Instance.AddPointMagie(); RefreshUI(); }
+    public void OnClickAddHP() 
+    { 
+        if (LevelManager.Instance != null)
+        {
+            Debug.Log("ProgressionUI: Clic Add HP. Points restants : " + LevelManager.Instance.skillPoints);
+            LevelManager.Instance.AddPointHP(); 
+            // Note: RefreshUI() est appelé automatiquement par l'évent OnStatsChanged
+        }
+        else Debug.LogError("ProgressionUI: LevelManager.Instance est INTROUVABLE !");
+    }
+
+    public void OnClickAddPhys() 
+    { 
+        if (LevelManager.Instance != null)
+        {
+            Debug.Log("ProgressionUI: Clic Add Physique. Points restants : " + LevelManager.Instance.skillPoints);
+            LevelManager.Instance.AddPointPhysique(); 
+        }
+        else Debug.LogError("ProgressionUI: LevelManager.Instance est INTROUVABLE !");
+    }
+
+    public void OnClickAddMag() 
+    { 
+        if (LevelManager.Instance != null)
+        {
+            Debug.Log("ProgressionUI: Clic Add Magie. Points restants : " + LevelManager.Instance.skillPoints);
+            LevelManager.Instance.AddPointMagie(); 
+        }
+        else Debug.LogError("ProgressionUI: LevelManager.Instance est INTROUVABLE !");
+    }
     
     public void OnClickReset() 
     { 
-        LevelManager.Instance.ResetStats(); 
-        RefreshUI(); 
+        if (LevelManager.Instance != null)
+        {
+            LevelManager.Instance.ResetStats(); 
+        }
     }
 }

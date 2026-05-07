@@ -12,18 +12,21 @@ public class NPCTrigger : MonoBehaviour
         // On ne réagit qu'au joueur
         if (other.CompareTag("Player"))
         {
+            Debug.Log("NPCTrigger: Joueur détecté près de " + type);
             if (LobbyNPCManager.Instance != null)
             {
                 if (type == NPCType.Marchand)
                 {
                     LobbyNPCManager.Instance.OpenMerchant();
-                    Debug.Log("Bienvenue chez le Marchand !");
                 }
                 else
                 {
                     LobbyNPCManager.Instance.OpenBlacksmith();
-                    Debug.Log("Prêt à forger l'acier ?");
                 }
+            }
+            else
+            {
+                Debug.LogError("NPCTrigger: LobbyNPCManager.Instance est NULL ! L'objet est-il présent dans la scène ?");
             }
         }
     }

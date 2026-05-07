@@ -13,10 +13,14 @@ public class PlayerController : MonoBehaviour
     public int baseAttackDamage = 15;
     public float attackCooldown = 0.5f; 
 
+    [Header("Visuals")]
+    public SpriteRenderer weaponSpriteRenderer;
+
     private int bonusPhysique = 0;
     private int bonusMagie = 0;
 
     private Rigidbody2D rb;
+    private Animator animator;
     private Vector2 moveInput;
     private Vector2 aimDirection = Vector2.down; 
     private float nextAttackTime = 0f;
@@ -25,6 +29,41 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
+        // S'abonner aux changements d'inventaire pour mettre à jour l'arme visuellement
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.OnInventoryChanged += UpdateWeaponVisuals;
+            InventoryManager.Instance.UpdatePlayerStats(); // Forcer la synchro des bonus
+            UpdateWeaponVisuals(); // Mise à jour initiale
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.OnInventoryChanged -= UpdateWeaponVisuals;
+        }
+    }
+
+    public void UpdateWeaponVisuals()
+    {
+        if (weaponSpriteRenderer == null) return;
+
+        // PAR DÉFAUT : On cache l'arme
+        weaponSpriteRenderer.enabled = false;
+
+        if (InventoryManager.Instance == null) return;
+
+        // On vérifie si une arme est équipée
+        if (InventoryManager.Instance.equipment.TryGetValue(ItemType.Arme_Melee, out ItemInstance weapon) && weapon != null)
+        {
+            Debug.Log("PlayerController: Affichage de l'arme équipée : " + weapon.template.itemName);
+            weaponSpriteRenderer.sprite = weapon.template.itemIcon;
+            weaponSpriteRenderer.enabled = true;
+        }
     }
 
     public void UpdateDamageBonus(int physique, int magie)
@@ -57,10 +96,18 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
 
         // 3. Attaque avec Clic Gauche (LMB)
-        if (Input.GetMouseButtonDown(0) && Time.time >= nextAttackTime)
+        if (Input.GetMouseButtonDown(0))
         {
-            Attack();
-            nextAttackTime = Time.time + attackCooldown;
+            if (Time.time >= nextAttackTime)
+            {
+                Debug.Log("PlayerController: Clic détecté, lancement de Attack()");
+                Attack();
+                nextAttackTime = Time.time + attackCooldown;
+            }
+            else
+            {
+                Debug.Log("PlayerController: Attaque en cooldown...");
+            }
         }
     }
 
@@ -72,6 +119,23 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
+        // Déclenche l'animation via le Trigger défini dans l'Animator
+        if (animator != null)
+        {
+            Debug.Log("PlayerController: Envoi du Trigger 'Attack' à l'Animator");
+            animator.SetTrigger("Attack");
+        }
+        else
+        {
+            Debug.LogWarning("PlayerController: Aucun Animator trouvé sur le joueur !");
+            PerformDamageDetection();
+        }
+    }
+
+    // Cette méthode peut être appelée par un "Animation Event" dans le clip d'attaque
+    // pour que les dégâts soient synchronisés avec le mouvement de l'arme.
+    public void PerformDamageDetection()
+    {
         // 1. Calcul de la position du cercle d'attaque
         // On utilise l'offset de 0.8f pour projeter le cercle devant le joueur
         Vector2 attackPosition = (Vector2)transform.position + aimDirection * attackOffset;
@@ -81,12 +145,9 @@ public class PlayerController : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            // --- NOUVEAUTÉ : VÉRIFICATION DU MUR ---
-            // On trace une ligne entre le joueur et l'ennemi
-            // wallLayer doit correspondre au layer de ta Tilemap "Murs"
+            // --- VÉRIFICATION DU MUR ---
             RaycastHit2D wallCheck = Physics2D.Linecast(transform.position, enemy.transform.position, wallLayer);
 
-            // Si wallCheck.collider est nul, cela signifie qu'aucun mur n'est entre les deux
             if (wallCheck.collider == null)
             {
                 EnemyHealth health = enemy.GetComponent<EnemyHealth>();
@@ -95,10 +156,6 @@ public class PlayerController : MonoBehaviour
                     int finalDamage = baseAttackDamage + bonusPhysique;
                     health.TakeDamage(finalDamage); 
                 }
-            }
-            else
-            {
-                Debug.Log("Attaque bloquée par un mur !");
             }
         }
     }

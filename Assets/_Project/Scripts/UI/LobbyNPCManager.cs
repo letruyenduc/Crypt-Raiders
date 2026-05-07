@@ -27,9 +27,9 @@ public class LobbyNPCManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-        
+        // On simplifie au maximum : le manager de la scène actuelle
+        // devient l'instance de référence.
+        Instance = this;
         CloseAllNPCs();
     }
 
@@ -109,6 +109,9 @@ public class LobbyNPCManager : MonoBehaviour
 
         InventoryManager.Instance.backpack.Remove(item);
         InventoryUI.Instance.RefreshUI();
+        
+        // --- NOUVEAUTÉ : AUTO-SAVE ---
+        if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
         
         Debug.Log($"Vendu {item.template.itemName} pour {price} Or !");
     }
@@ -198,9 +201,20 @@ public class LobbyNPCManager : MonoBehaviour
 
     public void ConfirmUpgrade()
     {
-        if (currentBlacksmithItem == null || currentBlacksmithItem.currentUpgrades >= currentBlacksmithItem.maxUpgrades) return;
+        if (currentBlacksmithItem == null)
+        {
+            Debug.LogWarning("LobbyNPCManager: Aucun objet sélectionné pour l'amélioration !");
+            return;
+        }
+
+        if (currentBlacksmithItem.currentUpgrades >= currentBlacksmithItem.maxUpgrades)
+        {
+            Debug.LogWarning("LobbyNPCManager: Amélioration impossible, niveau max atteint.");
+            return;
+        }
 
         int cost = GetUpgradeCost(currentBlacksmithItem);
+        Debug.Log($"LobbyNPCManager: Tentative d'amélioration. Coût : {cost}, Or actuel : {(CurrencyManager.Instance != null ? CurrencyManager.Instance.gold : -1)}");
 
         if (CurrencyManager.Instance != null && CurrencyManager.Instance.gold >= cost)
         {
@@ -211,12 +225,15 @@ public class LobbyNPCManager : MonoBehaviour
             // Rafraîchir l'inventaire complet pour mettre à jour les icônes/stats
             InventoryUI.Instance.RefreshUI();
             InventoryManager.Instance.UpdatePlayerStats();
+
+            // --- NOUVEAUTÉ : AUTO-SAVE ---
+            if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
             
-            Debug.Log($"Objet amélioré au niveau {currentBlacksmithItem.currentUpgrades} !");
+            Debug.Log($"LobbyNPCManager: Objet {currentBlacksmithItem.template.itemName} amélioré au niveau {currentBlacksmithItem.currentUpgrades} !");
         }
         else
         {
-            Debug.Log("Pas assez d'or pour améliorer !");
+            Debug.LogWarning("LobbyNPCManager: Pas assez d'or pour améliorer !");
         }
     }
 }

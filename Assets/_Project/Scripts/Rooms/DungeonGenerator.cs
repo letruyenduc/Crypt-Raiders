@@ -6,12 +6,22 @@ public class DungeonGenerator : MonoBehaviour
     public static DungeonGenerator instance;
 
     [Header("Configuration du Donjon")]
-    public int maxRooms = 5; // Le nombre de salles avant le boss
+    public int maxRooms = 5; // Valeur par défaut si Manager absent
     private int currentRoomCount = 0; // Le compteur actuel
 
     [Header("Prefabs de Salles")]
     public GameObject[] roomPrefabs; // Tes salles normales
     public GameObject bossRoomPrefab; // LA NOUVELLE VARIABLE : La salle finale
+
+    void Start()
+    {
+        // On synchronise la longueur du donjon avec la difficulté
+        if (DifficultyManager.Instance != null)
+        {
+            maxRooms = DifficultyManager.Instance.GetMaxRooms();
+            Debug.Log($"DungeonGenerator: Difficulté {DifficultyManager.Instance.currentDifficulty} -> {maxRooms} salles prévues.");
+        }
+    }
 
     void Awake()
     {

@@ -56,6 +56,12 @@ public class SaveManager : MonoBehaviour
         LoadGame();
     }
 
+    private void OnApplicationQuit()
+    {
+        // Une dernière sauvegarde de secours (ne marche pas sur Alt+F4 mais sur le bouton Quitter)
+        SaveGame();
+    }
+
     public void SaveGame()
     {
         // 1. Sauvegarde des stats simples (PlayerPrefs)

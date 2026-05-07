@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Pantalon_Rare_Pillard_War
   m_EditorClassIdentifier: 
   itemName: "Gr\xE8ves du Pillard"
-  itemIcon: {fileID: 21300000, guid: b35cacad56fa23b44951ca489af36a3c, type: 3}
+  itemIcon: {fileID: 21300000, guid: 5958d742f3ddd4046b47c0b6ff923c1b, type: 3}
   type: 4
   rarity: 1
-  scalingType: 2
+  scalingType: 0
   mainStatValue: 0
   bonusHP: 18
   bonusPhysique: 10
